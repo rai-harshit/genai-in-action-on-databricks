@@ -8,4 +8,5 @@ Steps to Execute the Code:
 4. In each of the notebooks, check for the code that queries the Databricks Serving Endpoint and update it with your workspace's serving endpoint link.
 5. For Audio Transcription, you will have to sign up on `HuggingFace` and generate an API token to download the model.
 6. Before running the `06_Report_Generation` and `07_Marketing_Content_Generation` notebooks, ensure that you have two volumes created inside the products schema: `reports` and `social_media`.
-7. Once this is done, follow the instructions in the README.md file inside the `genai_in_action_on_databricks` to deploy and run the Databricks Asset Bundle. 
+7. Replace the `user.name@email.com` placeholder throughout this code repository with your Databricks user id.
+8. Once this is done, follow the instructions in the README.md file inside the `genai_in_action_on_databricks` to deploy and run the Databricks Asset Bundle. 

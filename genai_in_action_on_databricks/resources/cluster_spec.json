@@ -12,12 +12,12 @@
     "driver_node_type_id": "g4dn.2xlarge",
     "autotermination_minutes": 60,
     "enable_elastic_disk": false,
-    "single_user_name": "harshit.rai@databricks.com",
+    "single_user_name": "user.name@email.com",
     "enable_local_disk_encryption": false,
     "data_security_mode": "SINGLE_USER",
     "runtime_engine": "STANDARD",
     "effective_spark_version": "14.3.x-gpu-ml-scala2.12",
-    "assigned_principal": "user:harshit.rai@databricks.com",
+    "assigned_principal": "user:user.name@email.com",
     "autoscale": {
         "min_workers": 2,
         "max_workers": 2
