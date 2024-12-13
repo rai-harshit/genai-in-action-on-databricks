@@ -1,0 +1,67 @@
+resources:
+  jobs:
+    Spark_AI_GenAI_Demo:
+      name: Spark+AI_GenAI_Demo
+      tasks:
+        - task_key: Create-Raw-Data-Superset
+          notebook_task:
+            notebook_path: /Workspace/Users/harshit.rai@databricks.com/Spark+AI_Meetup/01_Create_Raw_Data_Superset
+            source: WORKSPACE
+          existing_cluster_id: 1108-083354-41jgi6sr
+        - task_key: Audio-Transcription
+          notebook_task:
+            notebook_path: /Workspace/Users/harshit.rai@databricks.com/Spark+AI_Meetup/02_Audio_Transcription
+            source: WORKSPACE
+          existing_cluster_id: 1108-083354-41jgi6sr
+        - task_key: Ingest-Text-Reviews
+          depends_on:
+            - task_key: Create-Raw-Data-Superset
+          notebook_task:
+            notebook_path: /Workspace/Users/harshit.rai@databricks.com/Spark+AI_Meetup/03_Ingest_Textual_Reviews
+            source: WORKSPACE
+          existing_cluster_id: 1108-083354-41jgi6sr
+        - task_key: Text-Translation
+          depends_on:
+            - task_key: Audio-Transcription
+            - task_key: Ingest-Text-Reviews
+          notebook_task:
+            notebook_path: /Workspace/Users/harshit.rai@databricks.com/Spark+AI_Meetup/04_Text_Translation
+            source: WORKSPACE
+          existing_cluster_id: 1108-083354-41jgi6sr
+        - task_key: Sentiment-Analysis
+          depends_on:
+            - task_key: Text-Translation
+          notebook_task:
+            notebook_path: /Workspace/Users/harshit.rai@databricks.com/Spark+AI_Meetup/05_Sentiment_Analysis
+            source: WORKSPACE
+          existing_cluster_id: 1108-083354-41jgi6sr
+        - task_key: Report-Generation
+          depends_on:
+            - task_key: Sentiment-Analysis
+          notebook_task:
+            notebook_path: /Workspace/Users/harshit.rai@databricks.com/Spark+AI_Meetup/06_Report_Generation
+            source: WORKSPACE
+          existing_cluster_id: 1108-083354-41jgi6sr
+        - task_key: Instagram-Post-Generation
+          depends_on:
+            - task_key: Report-Generation
+          notebook_task:
+            notebook_path: /Workspace/Users/harshit.rai@databricks.com/Spark+AI_Meetup/07_Marketing_Content_Generation
+            source: WORKSPACE
+          existing_cluster_id: 1108-083354-41jgi6sr
+        - task_key: Report-Translation
+          depends_on:
+            - task_key: Report-Generation
+          notebook_task:
+            notebook_path: /Workspace/Users/harshit.rai@databricks.com/Spark+AI_Meetup/08_Report_Translation
+            source: WORKSPACE
+          existing_cluster_id: 1108-083354-41jgi6sr
+        - task_key: Issue_Type_Classification
+          depends_on:
+            - task_key: Sentiment-Analysis
+          notebook_task:
+            notebook_path: /Workspace/Users/harshit.rai@databricks.com/Spark+AI_Meetup/09_Negative_Reviews_Classification
+            source: WORKSPACE
+          existing_cluster_id: 1108-083354-41jgi6sr
+      queue:
+        enabled: true
