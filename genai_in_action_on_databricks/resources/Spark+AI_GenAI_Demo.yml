@@ -2,66 +2,85 @@ resources:
   jobs:
     Spark_AI_GenAI_Demo:
       name: Spark+AI_GenAI_Demo
+      job_clusters:
+        - job_cluster_key: gpu_cluster
+          new_cluster: ${var.job_cluster_id}
+      parameters: 
+        - name: serving_endpoint_url
+          default: ${var.serving_endpoint_url}
+        - name: t2t_model_name
+          default: ${var.t2t_model_name}
+        - name: image_gen_model_name
+          default: ${var.image_gen_model_name}
       tasks:
         - task_key: Create-Raw-Data-Superset
           notebook_task:
-            notebook_path: /Workspace/Users/user.name@email.com/Spark+AI_Meetup/01_Create_Raw_Data_Superset
-            source: WORKSPACE
-          existing_cluster_id: <insert-cluster-id-here>
+            notebook_path: ../src/01_Create_Raw_Data_Superset.ipynb
+          job_cluster_key: gpu_job_cluster
         - task_key: Audio-Transcription
           notebook_task:
-            notebook_path: /Workspace/Users/user.name@email.com/Spark+AI_Meetup/02_Audio_Transcription
-            source: WORKSPACE
-          existing_cluster_id: <insert-cluster-id-here>
+            notebook_path: ../src/02_Audio_Transcription.ipynb
+          job_cluster_key: gpu_job_cluster
         - task_key: Ingest-Text-Reviews
           depends_on:
             - task_key: Create-Raw-Data-Superset
           notebook_task:
-            notebook_path: /Workspace/Users/user.name@email.com/Spark+AI_Meetup/03_Ingest_Textual_Reviews
-            source: WORKSPACE
-          existing_cluster_id: <insert-cluster-id-here>
+            notebook_path: ../src/03_Ingest_Textual_Reviews.ipynb
+          job_cluster_key: gpu_job_cluster
         - task_key: Text-Translation
           depends_on:
             - task_key: Audio-Transcription
             - task_key: Ingest-Text-Reviews
           notebook_task:
-            notebook_path: /Workspace/Users/user.name@email.com/Spark+AI_Meetup/04_Text_Translation
-            source: WORKSPACE
-          existing_cluster_id: <insert-cluster-id-here>
+            notebook_path: ../src/04_Text_Translation.ipynb
+          job_cluster_key: gpu_job_cluster
         - task_key: Sentiment-Analysis
           depends_on:
             - task_key: Text-Translation
           notebook_task:
-            notebook_path: /Workspace/Users/user.name@email.com/Spark+AI_Meetup/05_Sentiment_Analysis
-            source: WORKSPACE
-          existing_cluster_id: <insert-cluster-id-here>
+            notebook_path: ../src/05_Sentiment_Analysis.ipynb
+          job_cluster_key: gpu_job_cluster
         - task_key: Report-Generation
           depends_on:
             - task_key: Sentiment-Analysis
           notebook_task:
-            notebook_path: /Workspace/Users/user.name@email.com/Spark+AI_Meetup/06_Report_Generation
-            source: WORKSPACE
-          existing_cluster_id: <insert-cluster-id-here>
+            notebook_path: ../src/06_Report_Generation.ipynb
+          job_cluster_key: gpu_job_cluster
         - task_key: Instagram-Post-Generation
           depends_on:
             - task_key: Report-Generation
           notebook_task:
-            notebook_path: /Workspace/Users/user.name@email.com/Spark+AI_Meetup/07_Marketing_Content_Generation
-            source: WORKSPACE
-          existing_cluster_id: <insert-cluster-id-here>
+            notebook_path: ../src/07_Marketing_Content_Generation.ipynb
+          job_cluster_key: gpu_job_cluster
         - task_key: Report-Translation
           depends_on:
             - task_key: Report-Generation
           notebook_task:
-            notebook_path: /Workspace/Users/user.name@email.com/Spark+AI_Meetup/08_Report_Translation
-            source: WORKSPACE
-          existing_cluster_id: <insert-cluster-id-here>
+            notebook_path: ../src/08_Report_Translation.ipynb
+          job_cluster_key: gpu_job_cluster
         - task_key: Issue_Type_Classification
           depends_on:
             - task_key: Sentiment-Analysis
           notebook_task:
-            notebook_path: /Workspace/Users/user.name@email.com/Spark+AI_Meetup/09_Negative_Reviews_Classification
-            source: WORKSPACE
-          existing_cluster_id: <insert-cluster-id-here>
+            notebook_path: ../src/09_Negative_Reviews_Classification.ipynb
+          job_cluster_key: gpu_job_cluster
+      job_clusters:
+        - job_cluster_key: gpu_job_cluster
+          new_cluster:
+            spark_version: 14.3.x-gpu-ml-scala2.12
+            # Uncomment the aws_attributes (line 72-77) block below for Databricks on AWS
+            # aws_attributes:
+            #   first_on_demand: 1
+            #   availability: SPOT_WITH_FALLBACK
+            #   zone_id: us-west-2a
+            #   spot_bid_price_percent: 100
+            #   ebs_volume_count: 0
+            # node_type_id: g4dn.2xlarge # Uncomment for Databricks on AWS
+            node_type_id: Standard_NC4as_T4_v3 # Comment for Databricks on AWS
+            enable_elastic_disk: false
+            data_security_mode: SINGLE_USER
+            runtime_engine: STANDARD
+            num_workers: 2
+
       queue:
         enabled: true

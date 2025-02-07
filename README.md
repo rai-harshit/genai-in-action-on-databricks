@@ -2,11 +2,9 @@
  Resources and content for the 'GenAI in Action on Databricks' presentation, delivered at the Spark+AI Meetup held at the Databricks Bellevue Office on November 13, 2024.
 
 Steps to Execute the Code:
-1. Create an ML compute cluster in Databricks on which you will run the code. Cluster details can be found in the `resources/cluster_spec.json` file.
-2. Copy the cluster ID from the 'Compute' page in your Databricks workspace and update it in the `resources/Spark_AI_GenAI_Demo.yml` file.
-3. Update the `databricks.yml` file with your dev workspace host.
-4. Replace the `user.name@email.com` placeholder throughout this code repository with your Databricks user id.
-5. In each of the notebooks, check for the code that queries the Databricks Serving Endpoint and update it with your workspace's serving endpoint link.
-6. For Audio Transcription, you will have to sign up on `HuggingFace` and generate an API token to download the model.
-7. Before running the `06_Report_Generation` and `07_Marketing_Content_Generation` notebooks, ensure that you have two volumes created inside the products schema: `reports` and `social_media`.
-8. Once this is done, follow the instructions in the README.md file inside the `genai_in_action_on_databricks` to deploy and run the Databricks Asset Bundle. 
+
+1. Update the `variables` in the `databricks.yml` file to use the desired models. These details can be obtained from the `Serving` section in Databricks UI. 
+2. Also, update the `dev` and `prod` workspace host as well as the `serving_endpoint_url` variable in `databricks.yml` file.
+3. Depending on whether you're using Databricks on Azure or AWS, comment/uncomment the code in the `resources/Spark+AI_GenAI_Demo.yml` file. Specific details are provided in the file.
+4. Once this is done, follow the instructions in the README.md file inside the `genai_in_action_on_databricks` to deploy and run the Databricks Asset Bundle. 
+

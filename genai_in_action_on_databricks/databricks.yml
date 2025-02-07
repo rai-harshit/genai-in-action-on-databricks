@@ -6,6 +6,16 @@ bundle:
 include:
   - resources/*.yml
 
+variables: 
+  serving_endpoint_url:
+    description: URL of the Model Serving endpoint
+  t2t_model_name: 
+    description: Model name to use for text-to-text generation
+    default: databricks-meta-llama-3-3-70b-instruct
+  image_gen_model_name: 
+    description: Text-to-Image model name
+    default: databricks-shutterstock-imageai
+
 targets:
   # The 'dev' target, for development purposes. This target is the default.
   dev:
@@ -15,8 +25,12 @@ targets:
     # - The 'development' mode is used for Delta Live Tables pipelines
     mode: development
     default: true
+    variables:
+    # The serving_endpoint_url is basically your host+ "/serving-endpoints"
+        serving_endpoint_url: <host-name>/serving-endpoints
     workspace:
-      host: "your_development_hostname_here"
+      host: <host-name>
+      root_path: /Users/${workspace.current_user.userName}/.bundle/${bundle.name}/
 
   ## Optionally, there could be a 'staging' target here.
   ## (See Databricks docs on CI/CD at https://docs.databricks.com/dev-tools/bundles/ci-cd.html.)
@@ -30,11 +44,14 @@ targets:
     # We use 'mode: production' to indicate this is a production deployment.
     # Doing so enables strict verification of the settings below.
     mode: production
+    variables:
+        # The serving_endpoint_url is basically your host+ "/serving-endpoints"
+        serving_endpoint_url: <host-name>/serving-endpoints
     workspace:
-      host: "your_production_hostname_here"
+      host: <host-name>
       # We always use /Users/user.name@email.com for all resources to make sure we only have a single copy.
       # If this path results in an error, please make sure you have a recent version of the CLI installed.
-      root_path: /Users/user.name@email.com/.bundle/${bundle.name}/${bundle.target}
+      root_path: /Users/${workspace.current_user.userName}/.bundle/${bundle.name}/${bundle.target}
     run_as:
       # This runs as user.name@email.com in production. We could also use a service principal here,
       # see https://docs.databricks.com/dev-tools/bundles/permissions.html.
