@@ -7,6 +7,8 @@
 ## Architecture - Detailed
 ![Architecture_Overview](images/arch_detailed.png)
 
+Note: Llama 3.1 has been replaced by the latest Llama 3.3.
+
 For more details, view the PDF: [Demo PDF](GenAI_in_Action_on_Databricks_-_Harshit_Rai.pdf)
 
 ## Steps to Execute the Code:
